@@ -1,0 +1,10 @@
+[workspace]
+restore_data_on_startup = True
+save_data_on_exit = True
+save_history = True
+save_non_project_files = False
+
+[main]
+version = 0.2.0
+recent_files = ['web\\app.py', 'web\\templates\\login.html', 'web\\templates\\register.html', 'web\\templates\\manage.html', 'web\\templates\\upload.html', 'web\\templates\\index.html', 'web\\templates\\browser.html', 'format.html', 'web\\model\\FeTS2021_main\\inference.py']
+

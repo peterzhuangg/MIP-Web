@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"  type="text/css" href="/static/style.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Manage</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  </head>
+  <body bgcolor="#E6E6FA" background = "../static/bg3.jpeg" style="background-size:100%" background-attachment: "fixed">
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title">Hello，{{ username }}，Welcome</span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+      <!-- Navigation. We hide it in small screens. -->
+      <nav class="mdl-navigation mdl-layout--large-screen-only">
+        <a class="mdl-navigation__link" href="{{ url_for('index') }}">Index</a>
+        <a class="mdl-navigation__link" href="{{ url_for('manage') }}">Manage</a>
+        <a class="mdl-navigation__link" href="{{ url_for('upload') }}">Upload</a>
+        <a class="mdl-navigation__link" href="{{ url_for('browser') }}">browser</a>
+      </nav>
+    </div>
+  </header>
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">{{ username }}</span>
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" href="{{ url_for('index') }}">Index</a>
+      <a class="mdl-navigation__link" href="{{ url_for('manage') }}">Manage</a>
+      <a class="mdl-navigation__link" href="{{ url_for('upload') }}">Upload</a>
+      <a class="mdl-navigation__link" href="{{ url_for('browser') }}">browser</a>
+      <a class="mdl-navigation__link" href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+  </div>
+  <main class="mdl-layout__content" style="flex: 1 0 auto;">
+    <div>
+    <!-- Your content goes here -->
+    <h1>&nbsp;&nbsp;File Manager</h1>
+    &nbsp;&nbsp;<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="window.location.href='{{ url_for('manage') }}'">Refresh</button>	
+	&nbsp;&nbsp;<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="window.location.href='{{ url_for('upload') }}'">Upload</button>	
+    &nbsp;&nbsp;<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="window.location.href='{{ url_for('index') }}'">Quit</button>
+    <hr>
+    <br/>
+    <br/>
+    <!--<a href="{{ url_for('multiprocess_file') }}" type="submit">Multiprocess</a>-->
+    {% if message %} {{message}} {% endif %}
+    <div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet">
+
+<h3> Your Uploaded File Will Appear Here</h3>
+<form name="form" method="POST">
+<br>
+	<a>&nbsp; &nbsp;<strong>Uploaded File List</strong>:</a>
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+  <thead>
+    <tr>
+    <th>
+      <input type="checkbox" id="selectAll" name="selectall"/>
+
+    </th>
+      <th class="mdl-data-table__cell--non-numeric">Material</th>
+      <th>Size</th>
+      <th>Browse</th>
+      <th>Test</th>
+      <th>Download</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  
+  
+  <tbody id="A">
+  
+{% for file in file_list %}
+    <tr>
+    <td>
+      <input type="checkbox" name="multiselect" id="row[{{loop.index}}]" value="{{loop.index}}"/>
+    </td>
+      <td class="mdl-data-table__cell--non-numeric">- {{ file }}</td>
+    <td> <a>{{ fileinfo[file] }} M</a> </td>
+    <td> <a href="{{ url_for('open_file', filename=file) }}" >browse</a> </td>
+    <td> <a href="{{ url_for('process_file', filename=file) }}">process</a> </td>
+    <td> <a href="{{ url_for('download_file', filename=file) }}">download</a> </td>
+    <td> <a href="{{ url_for('delete_file', filename=file) }}">delete</a><br> </td>
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+<br>
+    &nbsp; &nbsp;<a><strong>Process method: do not forget</strong></a><br>
+    &nbsp; &nbsp;<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+    <input type="radio" id="option-1" class="mdl-radio__button" name="methods" value="1" checked>
+    <span class="mdl-radio__label">Test Model</span>
+    </label><br>
+    &nbsp; &nbsp;<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
+    <input type="radio" id="option-2" class="mdl-radio__button" name="methods" value="2">
+    <span class="mdl-radio__label">FeTS model</span>
+    </label><br>
+	<div>&nbsp; &nbsp;More models coming in the future !</div><br>
+&nbsp; &nbsp;<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="form.action='/multiprocess';form.submit();">Process</button>	
+&nbsp; &nbsp;<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="form.action='/multidelete';form.submit();">Delete</button>	
+&nbsp; &nbsp;<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="form.action='/multidownload';form.submit();">Download</button>	
+<br>
+<br>
+
+</form>
+</div>
+
+  <div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet"><h3> Your Result File Will Appear Here</h3>
+<form name="form2" method="POST">
+<br>
+<a>&nbsp; &nbsp;<strong>Your result:</strong></a>
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+      <thead>
+    <tr>
+    <th>
+      <input type="checkbox" id="selectAll2" name="selectall2"/>
+
+    </th>
+      <th class="mdl-data-table__cell--non-numeric">Material</th>
+      <th>Size</th>
+      <th>browse</th>
+      <th>download</th>
+      <th>delete</th>
+    </tr>
+  </thead>
+  
+  
+  <tbody id="B">
+  
+{% for file in output_list %}
+    <tr>
+    <td>
+      <input type="checkbox" name="multiselect2" id="row[{{loop.index}}]" value="{{loop.index}}"/>
+    </td>
+      <td class="mdl-data-table__cell--non-numeric">- {{ file }}</td>
+    {% if outputinfo[file]|float < 0.01 %}
+    <td> <div class="mdl-spinner mdl-js-spinner is-active"></div></td>
+    <td> <div class="mdl-spinner mdl-js-spinner is-active"></div></td>
+    <td> <div class="mdl-spinner mdl-js-spinner is-active"></div></td>
+    <td> <div class="mdl-spinner mdl-js-spinner is-active"></div></td>    
+    {% else %}
+
+    <td> <a>{{ outputinfo[file] }} M</a> </td>
+    <td> <a href="{{ url_for('open_result', filename=file) }}">browse</a> </td>
+    <td> <a href="{{ url_for('download_result', filename=file) }}">download</a> </td>
+    <td> <a href="{{ url_for('delete_result', filename=file) }}">delete</a><br> </td>
+    {% endif %}
+    </tr>    
+{% endfor %}
+  </tbody>
+</table>
+<br>
+&nbsp; &nbsp;<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="form2.action='/multideleteR';form2.submit();">Delete</button>	
+&nbsp; &nbsp;<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="form2.action='/multidownloadR';form2.submit();">Download</button>	
+</form>
+</div>
+<br>
+<hr>
+<br>
+<br>
+<br>
+<br>
+
+</div>
+
+  </main>
+  <footer class="mdl-mini-footer">
+  <div class="mdl-mini-footer__left-section">
+    <div class="mdl-logo">Manage</div>
+    <ul class="mdl-mini-footer__link-list">
+      <li><a href="#"></a></li>
+      <li><a href="#">Contact us</a></li>
+    </ul>
+  </div>
+</footer>
+</div>
+
+
+<script type="text/javascript">
+
+        //1.获取元素
+        var selectAll = document.querySelector('#selectAll');
+        var ipts = document.querySelectorAll('#A input');
+        //2.设置全选事件
+        selectAll.onclick = function () {
+            for (var i = 0; i < ipts.length; i++) {
+                ipts[i].checked = selectAll.checked;//tbody中的复选框的选中状态和thead中的选中状态相同即可
+            }
+        }
+        //3.设置反选事件
+        //设置计数器，用来计算tbody中选中状态的复选框个数
+        var count = 0;
+        for (var i = 0; i < ipts.length; i++) {
+            ipts[i].onclick = function () {
+                this.checked?count++:count--;
+                selectAll.checked =count===ipts.length;//判断count和tbody中的复选框个数是否相等，如果相等thead中复选框选中，反之这不选中
+            }
+        }
+        
+        
+                //1.获取元素
+        var selectAll2 = document.querySelector('#selectAll2');
+        var ipts2 = document.querySelectorAll('#B input');
+        //2.设置全选事件
+        selectAll2.onclick = function () {
+            for (var i = 0; i < ipts2.length; i++) {
+                ipts2[i].checked = selectAll2.checked;//tbody中的复选框的选中状态和thead中的选中状态相同即可
+            }
+        }
+        //3.设置反选事件
+        //设置计数器，用来计算tbody中选中状态的复选框个数
+        var count = 0;
+        for (var i = 0; i < ipts2.length; i++) {
+            ipts2[i].onclick = function () {
+                this.checked?count++:count--;
+                selectAll2.checked =count===ipts2.length;//判断count和tbody中的复选框个数是否相等，如果相等thead中复选框选中，反之这不选中
+            }
+        }
+        
+</script>
+</body>
+
+</html>

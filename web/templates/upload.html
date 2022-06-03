@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"  type="text/css" href="/static/style.css">
+    {{ dropzone.load_css() }}
+    
+    <title>Upload</title>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+<link href="../static/style.css" rel="stylesheet" type="text/css">
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+</head>
+  <body bgcolor="#E6E6FA" background = "../static/bg3.jpeg" style="background-size:100%" background-attachment: "fixed">
+  {{ dropzone.load_js() }}
+  {{ dropzone.style('border: 2px dashed #0087F7; margin: 10%') }}
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title">Hello，{{ username }}，Welcome</span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+      <!-- Navigation. We hide it in small screens. -->
+      <nav class="mdl-navigation mdl-layout--large-screen-only">
+        <a class="mdl-navigation__link" href="{{ url_for('index') }}">Index</a>
+        <a class="mdl-navigation__link" href="{{ url_for('manage') }}">Manage</a>
+        <a class="mdl-navigation__link" href="{{ url_for('upload') }}">Upload</a>
+        <a class="mdl-navigation__link" href="{{ url_for('browser') }}">browser</a>
+      </nav>
+    </div>
+  </header>
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">{{ username }}</span>
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" href="{{ url_for('index') }}">Index</a>
+      <a class="mdl-navigation__link" href="{{ url_for('manage') }}">Manage</a>
+      <a class="mdl-navigation__link" href="{{ url_for('upload') }}">Upload</a>
+      <a class="mdl-navigation__link" href="{{ url_for('browser') }}">browser</a>
+      <a class="mdl-navigation__link" href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+  </div>
+  <main class="mdl-layout__content" style="flex: 1 0 auto;">
+    <div class="page-content">
+    <h1>Upload your image files</h1>
+    &nbsp;&nbsp;<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="window.location.href='{{ url_for('upload') }}'">Refresh</button>	
+	&nbsp;&nbsp;<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="window.location.href='{{ url_for('manage') }}'">Manage</button>	
+    &nbsp;&nbsp;<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="window.location.href='{{ url_for('index') }}'">Quit</button>
+    <hr>
+    <h3>&nbsp;&nbsp;&nbsp;Drop your files to area below to upload your file. <br>&nbsp;&nbsp;&nbsp;Or click the area below and select your file from your device.</h3>
+    <br>
+    <h4><strong>&nbsp;&nbsp;&nbsp;Caution: Currently only NIFTI format is allowed</strong></h4>
+    {{ dropzone.create(action='/upload') }}
+    <!-- Your content goes here -->
+    </div>
+
+  </main>
+  <footer class="mdl-mini-footer">
+  <div class="mdl-mini-footer__left-section">
+    <div class="mdl-logo">Upload</div>
+    <ul class="mdl-mini-footer__link-list">
+      <li><a href="#"></a></li>
+      <li><a href="#">Contact us</a></li>
+    </ul>
+  </div>
+</footer>
+</div>
+
+
+</body>
+
+</html>
